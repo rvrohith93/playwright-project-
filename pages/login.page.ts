@@ -17,4 +17,7 @@ export class LoginPage {
   async verifyLoginSuccess() {
     await expect(this.page.getByText('Logged in as')).toBeVisible();
   }
+  async verifyLoginError() {
+  await expect(this.page.getByText('Your email or password is incorrect!')).toBeVisible();
+}
 }
