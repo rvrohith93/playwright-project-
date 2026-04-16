@@ -4,7 +4,9 @@ export class HomePage {
   constructor(private page: Page) {}
 
   async navigate() {
-    await this.page.goto('/');
+  await this.page.goto('/');
+  await this.page.getByText('Signup / Login').click();
+
   }
 
   async verifyHomePageVisible() {

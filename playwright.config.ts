@@ -4,6 +4,8 @@ export default defineConfig({
   testDir: './tests',
   testMatch: ['**/*.spec.ts'],
 
+  workers: 1,
+
   use: {
     baseURL: 'https://automationexercise.com',
     headless: false,

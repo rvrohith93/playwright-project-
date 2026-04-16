@@ -4,7 +4,8 @@ export class LoginPage {
   constructor(private page: Page) {}
   
   async navigateToLogin() {
-    await this.page.goto('/login');
+    await this.page.goto('/');
+  await this.page.getByText('Signup / Login').click();
   }
   async verifyLoginPageVisible() {
     await expect(this.page.getByText('Login to your account')).toBeVisible();
@@ -20,4 +21,11 @@ export class LoginPage {
   async verifyLoginError() {
   await expect(this.page.getByText('Your email or password is incorrect!')).toBeVisible();
 }
+  async logout() {
+    await this.page.click('a[href="/logout"]');
+  }
+  async verifyLogoutSuccess() {
+    await expect(this.page.getByText('Login to your account')).toBeVisible();
+  }
+
 }
