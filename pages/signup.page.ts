@@ -59,4 +59,8 @@ export class SignupPage {
   async verifyAccountDeleted() {
     await expect(this.page.getByText('Account Deleted!')).toBeVisible();
   }
+  
+  async verifyemailAlreadyExists() {
+    await expect(this.page.getByText('Email Address already exist!')).toBeVisible();
+  }
 }

@@ -14,5 +14,5 @@ test('Test Case 4:  Logout User', async ({ page }) => {
     await login.verifyLoginSuccess();
     await login.logout();
     await login.verifyLogoutSuccess();
-    await login.verifyLoginPageVisible();   
+    await login.verifyLoginPageVisible();
 });
