@@ -21,6 +21,9 @@ export class HomePage {
   async contactUs() {
     await this.page.click('a[href="/contact_us"]');
   }
+  async testCases() {
+    await this.page.click('a[href="/test_cases"]');
+  }
   async cart() {
     await this.page.click('a[href="/view_cart"]');
   } 
