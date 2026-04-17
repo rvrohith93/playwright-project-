@@ -9,5 +9,6 @@ export default defineConfig({
   use: {
     baseURL: 'https://automationexercise.com',
     headless: false,
+    navigationTimeout: 60000,
   },
 });

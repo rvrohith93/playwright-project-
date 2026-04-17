@@ -4,7 +4,9 @@ export class LoginPage {
   constructor(private page: Page) {}
   
   async navigateToLogin() {
-    await this.page.goto('/');
+     await this.page.goto('/', {
+    waitUntil: 'domcontentloaded'
+  });
   await this.page.getByText('Signup / Login').click();
   }
   async verifyLoginPageVisible() {
