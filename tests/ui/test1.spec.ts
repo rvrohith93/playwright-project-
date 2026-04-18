@@ -9,7 +9,7 @@ test('Test Case 1: Register User', async ({ page }) => {
 
   await home.navigate();
   await home.verifyHomePageVisible();
-  await home.clickSignupLogin();
+  await home.goToSignupLogin();
   await signup.verifySignupVisible();
   await signup.enterNameAndEmail('Rohit', email);
   await signup.verifyAccountInfoVisible();

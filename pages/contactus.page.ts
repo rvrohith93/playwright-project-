@@ -1,66 +1,66 @@
-import { test, expect, Page } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class ContactUsPage {
-  constructor(private page: Page) {}
+  readonly page: Page;
 
-   async verifyContactUsPageVisible() {
-    await expect(this.page.getByRole('heading', { name: 'Get In Touch' })).toBeVisible();
+  readonly nameInput: Locator;
+  readonly emailInput: Locator;
+  readonly subjectInput: Locator;
+  readonly messageInput: Locator;
+  readonly fileInput: Locator;
+  readonly submitBtn: Locator;
+  readonly successMsg: Locator;
+  readonly homeBtn: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+
+    this.nameInput = page.locator('input[name="name"]');
+    this.emailInput = page.locator('input[name="email"]');
+    this.subjectInput = page.locator('input[name="subject"]');
+    this.messageInput = page.locator('textarea[name="message"]');
+    this.fileInput = page.locator('input[type="file"]');
+    this.submitBtn = page.getByRole('button', { name: 'Submit' });
+    this.successMsg = page.locator('#contact-page .alert-success');
+    this.homeBtn = page.locator('#contact-page a.btn-success');
   }
- async fillContactForm(name: string, email: string, subject: string, message: string) {
-  
-    const nameField = this.page.locator('input[name="name"]');
 
-  await expect(nameField).toBeVisible();
 
-  await nameField.fill(name);
-  await this.page.locator('input[name="email"]').fill(email);
-  await this.page.locator('input[name="subject"]').fill(subject);
-  await this.page.locator('textarea[name="message"]').fill(message);
-}
-    async uploadFile(filePath: string) {
-    await this.page.setInputFiles('input[type="file"]', filePath);
-    }
-    async submitForm() {
-  const submitBtn = this.page.getByRole('button', { name: 'Submit' });
 
-  await submitBtn.scrollIntoViewIfNeeded();
-  await expect(submitBtn).toBeVisible();
+  async verifyPage() {
+    await expect(this.page.getByText('GET IN TOUCH')).toBeVisible();
+  }
 
-  
-  this.page.on('dialog', async dialog => {
-    console.log(dialog.message()); // optional debug
-    await dialog.accept();
-  });
+  async fillForm(name: string, email: string, subject: string, message: string) {
+    await this.nameInput.fill(name);
+    await this.emailInput.fill(email);
+    await this.subjectInput.fill(subject);
+    await this.messageInput.fill(message);
+  }
 
-  await submitBtn.click();
-}
-   async handleAlert() {
-  this.page.once('dialog', async dialog => {
-    await dialog.accept();
-  });
-  } 
-  async verifySuccessMessage() {
-  const successMsg = this.page.locator('#contact-page .alert-success');
+  async uploadFile(filePath: string) {
+    await this.fileInput.setInputFiles(filePath);
+  }
 
-  await expect(successMsg).toContainText(
-    'Success! Your details have been submitted successfully.'
-  );
-}
-  async home() {
-  await this.page.locator('#contact-page').getByRole('link', { name: 'Home' }).click();
-}
-  async submitFormAndHandleAlert() {
-  const submitBtn = this.page.getByRole('button', { name: 'Submit' });
+  async submit() {
+    await this.submitBtn.scrollIntoViewIfNeeded();
 
-  await submitBtn.scrollIntoViewIfNeeded(); 
+    this.page.once('dialog', async dialog => {
+      await dialog.accept();
+    });
 
-  await expect(submitBtn).toBeVisible();
+    await this.submitBtn.click();
+    
+  }
 
-  await Promise.all([
-    this.page.waitForEvent('dialog').then(dialog => dialog.accept()),
-    submitBtn.click()
-  ]);
+  async verifySuccess() {
+    await expect(this.successMsg).toHaveText(
+      'Success! Your details have been submitted successfully.',
+      { timeout: 30000 }
+    );
+  }
 
-}
-  
+  async goHome() {
+    await this.homeBtn.click();
+  }
 }

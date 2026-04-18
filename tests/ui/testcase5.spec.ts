@@ -12,7 +12,7 @@ test('Test Case 5: Delete User Account', async ({ page }) => {
      await registerUser (page, email);
      await loginPage.logout();
     await home.navigate();
-    await home.clickSignupLogin();
+    await home.goToSignupLogin();
     await signup.verifySignupVisible();
     await signup.enterNameAndEmail('Rohit', email);
     await signup.verifyemailAlreadyExists();

@@ -1,31 +1,55 @@
-import { Page, expect } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class HomePage {
-  constructor(private page: Page) {}
+  readonly page: Page;
 
-  async navigate() {
-  await this.page.goto('/', {
-    waitUntil: 'domcontentloaded'
-  });
-  await this.page.getByText('Signup / Login').click();
+  readonly signupLoginLink: Locator;
+  readonly contactUsLink: Locator;
+  readonly testCasesLink: Locator;
+  readonly cartLink: Locator;
+  readonly productsLink: Locator;
+  readonly homeLogo: Locator;
 
+  constructor(page: Page) {
+    this.page = page;
+
+    this.signupLoginLink = page.getByRole('link', { name: 'Signup / Login' });
+    this.contactUsLink = page.locator('a[href="/contact_us"]');
+    this.testCasesLink = page.locator('a[href="/test_cases"]').first();
+    this.cartLink = page.locator('a[href="/view_cart"]');
+    this.productsLink = page.locator('a[href="/products"]');
+    this.homeLogo = page.locator('img[alt="Website for automation practice"]');
   }
+
+
+ async navigate() {
+  await this.page.goto('/', {
+    waitUntil: 'domcontentloaded',
+    timeout: 60000
+  });
+}
 
   async verifyHomePageVisible() {
-    await expect(this.page).toHaveTitle(/Automation Exercise/);
+    await expect(this.homeLogo).toBeVisible();
   }
 
-  async clickSignupLogin() {
-    await this.page.click('a[href="/login"]');
+  async goToSignupLogin() {
+    await this.signupLoginLink.click();
   }
-  async contactUs() {
-    await this.page.click('a[href="/contact_us"]');
-  }
-  async testCases() {
-    await this.page.click('a[href="/test_cases"]');
-  }
-  async cart() {
-    await this.page.click('a[href="/view_cart"]');
-  } 
 
+  async goToContactUs() {
+    await this.contactUsLink.click();
+  }
+
+  async goToTestCases() {
+    await this.testCasesLink.click();
+  }
+
+  async goToCart() {
+    await this.cartLink.click();
+  }
+
+  async goToProducts() {
+    await this.productsLink.click();
+  }
 }

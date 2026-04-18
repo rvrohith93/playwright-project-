@@ -15,7 +15,7 @@ test('Test Case 7: Verify Contact Us Form Submission', async ({ page }) => {
     await login.logout();
     await home.navigate();
     await home.verifyHomePageVisible();
-    await home.testCases();
+    await home.goToTestCases();
     await testCases.verifyTestCasesPageVisible();
 
 });

@@ -7,7 +7,7 @@ export async function registerUser(page: Page, email: string) {
   const signup = new SignupPage(page);
 
   await home.navigate();
-  await home.clickSignupLogin();
+  await home.goToSignupLogin();
 
   await signup.verifySignupVisible();
   await signup.enterNameAndEmail('Rohit', email);
