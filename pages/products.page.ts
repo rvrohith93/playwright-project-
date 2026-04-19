@@ -11,16 +11,30 @@ export class ProductsPage {
   readonly searchedProductsTitle: Locator;
   readonly searchedProductsList: Locator;
 
+  readonly firstProduct: Locator;
+  readonly secondProduct: Locator;
+  readonly continueShoppingBtn: Locator;
+  readonly viewCartBtn: Locator;
+
   constructor(page: Page) {
     this.page = page;
 
     this.allProductsTitle = page.locator('h2').filter({ hasText: 'All Products' });
     this.productsList = page.locator('.features_items .col-sm-4');
-    this.firstProductViewButton = page.locator('.features_items .col-sm-4').first().locator('a[href*="product_details"]');
+    this.firstProductViewButton = page.locator('.features_items .col-sm-4')
+      .first()
+      .locator('a[href*="product_details"]');
+
     this.searchInput = page.locator('#search_product');
     this.searchButton = page.locator('#submit_search');
     this.searchedProductsTitle = page.locator('h2').filter({ hasText: 'Searched Products' });
     this.searchedProductsList = page.locator('.features_items .col-sm-4');
+
+    this.firstProduct = this.productsList.nth(0);
+    this.secondProduct = this.productsList.nth(1);
+
+    this.continueShoppingBtn = page.getByRole('button', { name: 'Continue Shopping' });
+    this.viewCartBtn = page.getByRole('link', { name: 'View Cart' });
   }
 
   async verifyAllProductsPage() {
@@ -46,5 +60,33 @@ export class ProductsPage {
 
   async verifySearchedProductsListVisible() {
     await expect(this.searchedProductsList.first()).toBeVisible();
+  }
+
+  async addFirstProductToCart() {
+    await this.firstProduct.hover();
+
+    await this.firstProduct
+      .locator('a[data-product-id].btn.btn-default.add-to-cart')
+      .first()
+      .click({ force: true });
+  }
+
+  async addSecondProductToCart() {
+    await this.secondProduct.hover();
+
+    await this.secondProduct
+      .locator('a[data-product-id].btn.btn-default.add-to-cart')
+      .first()
+      .click({ force: true });
+  }
+
+  async clickContinueShopping() {
+    await expect(this.continueShoppingBtn).toBeVisible();
+    await this.continueShoppingBtn.click();
+  }
+
+  async clickViewCart() {
+    await expect(this.viewCartBtn).toBeVisible();
+    await this.viewCartBtn.click();
   }
 }

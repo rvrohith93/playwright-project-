@@ -3,10 +3,17 @@ import { Page, Locator, expect } from '@playwright/test';
 export class CartPage {
   readonly page: Page;
 
+
   readonly subscriptionText: Locator;
   readonly subscriptionEmail: Locator;
   readonly subscriptionButton: Locator;
   readonly subscriptionSuccess: Locator;
+
+  readonly cartItems: Locator;
+  readonly productNames: Locator;
+  readonly productPrices: Locator;
+  readonly productQuantity: Locator;
+  readonly productTotal: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -14,8 +21,15 @@ export class CartPage {
     this.subscriptionText = page.locator('h2').filter({ hasText: 'SUBSCRIPTION' });
     this.subscriptionEmail = page.locator('#susbscribe_email');
     this.subscriptionButton = page.locator('#subscribe');
-    this.subscriptionSuccess = page.locator('#success-subscribe').locator('.alert-success');
+    this.subscriptionSuccess = page.locator('#success-subscribe .alert-success');
+
+    this.cartItems = page.locator('.cart_info tbody tr');
+    this.productNames = page.locator('.cart_description h4 a');
+    this.productPrices = page.locator('.cart_price p');
+    this.productQuantity = page.locator('.cart_quantity button');
+    this.productTotal = page.locator('.cart_total p');
   }
+
 
   async scrollToFooter() {
     await this.subscriptionText.scrollIntoViewIfNeeded();
@@ -31,6 +45,44 @@ export class CartPage {
   }
 
   async verifySubscriptionSuccess() {
-    await expect(this.subscriptionSuccess).toHaveText('You have been successfully subscribed!');
+    await expect(this.subscriptionSuccess)
+      .toContainText('You have been successfully subscribed!');
+  }
+
+
+
+  async verifyProductsCount(count: number) {
+    await expect(this.cartItems).toHaveCount(count);
+  }
+
+  async verifyProductsVisible() {
+    await expect(this.productNames.first()).toBeVisible();
+    await expect(this.productNames.nth(1)).toBeVisible();
+  }
+
+  async verifyPricesVisible() {
+    await expect(this.productPrices.first()).toBeVisible();
+    await expect(this.productPrices.nth(1)).toBeVisible();
+  }
+
+  async verifyQuantity(expected: string = '1') {
+    await expect(this.productQuantity.first()).toHaveText(expected);
+    await expect(this.productQuantity.nth(1)).toHaveText(expected);
+  }
+
+  async verifyTotalVisible() {
+    await expect(this.productTotal.first()).toBeVisible();
+    await expect(this.productTotal.nth(1)).toBeVisible();
+  }
+
+  // 🔥 ADVANCED VALIDATION (optional but strong)
+  async validatePriceCalculation(index: number) {
+    const priceText = await this.productPrices.nth(index).innerText();
+    const totalText = await this.productTotal.nth(index).innerText();
+
+    const price = Number(priceText.replace(/[^0-9]/g, ''));
+    const total = Number(totalText.replace(/[^0-9]/g, ''));
+
+    expect(total).toBe(price); 
   }
 }
