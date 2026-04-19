@@ -20,7 +20,7 @@ export class HomePage {
     this.signupLoginLink = page.getByRole('link', { name: 'Signup / Login' });
     this.contactUsLink = page.locator('a[href="/contact_us"]');
     this.testCasesLink = page.locator('a[href="/test_cases"]').first();
-    this.cartLink = page.locator('a[href="/view_cart"]');
+    this.cartLink = page.locator('a[href="/view_cart"]').first();
     this.productsLink = page.locator('a[href="/products"]');
     this.homeLogo = page.locator('img[alt="Website for automation practice"]');
     this.subscriptionText = page.locator('h2').filter({ hasText: 'SUBSCRIPTION' });
