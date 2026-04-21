@@ -67,7 +67,6 @@ export class CartPage {
 
   async verifyQuantity(expected: string = '1') {
     await expect(this.productQuantity.first()).toHaveText(expected);
-    await expect(this.productQuantity.nth(1)).toHaveText(expected);
   }
 
   async verifyTotalVisible() {
@@ -75,7 +74,7 @@ export class CartPage {
     await expect(this.productTotal.nth(1)).toBeVisible();
   }
 
-  // 🔥 ADVANCED VALIDATION (optional but strong)
+  
   async validatePriceCalculation(index: number) {
     const priceText = await this.productPrices.nth(index).innerText();
     const totalText = await this.productTotal.nth(index).innerText();

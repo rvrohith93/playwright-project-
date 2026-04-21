@@ -13,6 +13,7 @@ export class HomePage {
   readonly subscriptionEmail: Locator;
   readonly subscriptionButton: Locator;
   readonly subscriptionSuccess: Locator;
+  readonly firstProductViewButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -27,6 +28,9 @@ export class HomePage {
     this.subscriptionEmail = page.locator('#susbscribe_email');
     this.subscriptionButton = page.locator('#subscribe');
     this.subscriptionSuccess = page.locator('#success-subscribe').locator('.alert-success');
+    this.firstProductViewButton = page.locator('.features_items .col-sm-4')
+      .first()
+      .locator('a[href*="product_details"]');
   }
 
 
@@ -59,6 +63,10 @@ export class HomePage {
 
   async goToProducts() {
     await this.productsLink.click();
+  }
+
+  async clickViewProduct() {
+    await this.firstProductViewButton.click();
   }
 
   async scrollToFooter() {
