@@ -14,8 +14,6 @@ test('Test Case 8: Verify All Products and product detail page', async ({ page }
   const products = new ProductsPage(page);
   const productDetail = new ProductDetailPage(page);
 
-  // 1. Launch browser (handled by Playwright)
-  // 2. Navigate to url 'http://automationexercise.com'
   await home.navigate();
   await home.verifyHomePageVisible();
   await home.goToProducts();

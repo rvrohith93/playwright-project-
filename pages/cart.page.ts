@@ -14,6 +14,7 @@ export class CartPage {
   readonly productPrices: Locator;
   readonly productQuantity: Locator;
   readonly productTotal: Locator;
+  readonly proceedToCheckoutBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -28,6 +29,7 @@ export class CartPage {
     this.productPrices = page.locator('.cart_price p');
     this.productQuantity = page.locator('.cart_quantity button');
     this.productTotal = page.locator('.cart_total p');
+    this.proceedToCheckoutBtn = page.locator('a:has-text("Proceed To Checkout")');
   }
 
 
@@ -83,5 +85,9 @@ export class CartPage {
     const total = Number(totalText.replace(/[^0-9]/g, ''));
 
     expect(total).toBe(price); 
+  }
+
+  async proceedToCheckout() {
+    await this.proceedToCheckoutBtn.click();
   }
 }
