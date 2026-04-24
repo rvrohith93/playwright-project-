@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../../pages/home.page';
-import { ProductsPage } from '../../pages/products.page';
+import { CartPage } from '../../pages/cart.page';
 
 test.beforeEach(async ({ page }) => {
   await page.evaluate(() => {
@@ -8,18 +8,17 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test('Test Case 9: Search Product', async ({ page }) => {
+test('Test Case 11: Verify Subscription in Cart page', async ({ page }) => {
   const home = new HomePage(page);
-  const products = new ProductsPage(page);
+  const cart = new CartPage(page);
 
   // 1. Launch browser (handled by Playwright)
   // 2. Navigate to url 'http://automationexercise.com'
   await home.navigate();
   await home.verifyHomePageVisible();
-  await home.goToProducts();
-  await products.verifyAllProductsPage();
-  await products.searchProduct('dress');
-  await products.verifySearchedProductsVisible();
-
-  
+  await home.goToCart();
+  await cart.scrollToFooter();
+  await cart.verifySubscriptionText();
+  await cart.subscribeToNewsletter('test@example.com');
+  await cart.verifySubscriptionSuccess();
 });
