@@ -15,7 +15,7 @@ test('Test Case 15: Place Order: Register before Checkout', async ({ page }) => 
 
   await home.goToSignupLogin();
 
-  const email = `test${Date.now()}@mail.com`;
+   const email = `test${Date.now()}@mail.com`;
   await signup.verifySignupVisible();
   await signup.enterNameAndEmail('Rohit', email);
   await signup.verifyAccountInfoVisible();
