@@ -12,8 +12,7 @@ test('Test Case 11: Verify Subscription in Cart page', async ({ page }) => {
   const home = new HomePage(page);
   const cart = new CartPage(page);
 
-  // 1. Launch browser (handled by Playwright)
-  // 2. Navigate to url 'http://automationexercise.com'
+  
   await home.navigate();
   await home.verifyHomePageVisible();
   await home.goToCart();

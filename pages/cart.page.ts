@@ -10,10 +10,13 @@ export class CartPage {
   readonly subscriptionSuccess: Locator;
 
   readonly cartItems: Locator;
+  readonly cartPage: Locator;
   readonly productNames: Locator;
   readonly productPrices: Locator;
   readonly productQuantity: Locator;
   readonly productTotal: Locator;
+  readonly itemDeleteBtn: Locator;
+  readonly proceedToCheckoutBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -28,9 +31,14 @@ export class CartPage {
     this.productPrices = page.locator('.cart_price p');
     this.productQuantity = page.locator('.cart_quantity button');
     this.productTotal = page.locator('.cart_total p');
+    this.proceedToCheckoutBtn = page.locator('a:has-text("Proceed To Checkout")');
+    this.itemDeleteBtn = page.locator("//tr[@id='product-1']//a[contains(@class,'cart_quantity_delete')]");
+    this.cartPage = page.getByText('Shopping Cart');
   }
 
-
+  async verifyCartPageVisible(){
+    await expect(this.cartPage).toBeVisible();
+  }
   async scrollToFooter() {
     await this.subscriptionText.scrollIntoViewIfNeeded();
   }
@@ -84,4 +92,20 @@ export class CartPage {
 
     expect(total).toBe(price); 
   }
+
+  async proceedToCheckout() {
+    await this.proceedToCheckoutBtn.click();
+  }
+  async deleteProduct() {
+     const items = this.page.locator('tr[id^="product-"]');
+  const before = await items.count();
+
+  await this.page.locator('a.cart_quantity_delete').first().click();
+  await expect(items).toHaveCount(before - 1);
+  
+  }
+  async getCartProductCount():Promise<number> {
+    return await this.page.locator('tr[id^="product-"]').count();
+  }
+
 }
