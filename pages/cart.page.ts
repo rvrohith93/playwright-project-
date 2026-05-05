@@ -18,6 +18,7 @@ export class CartPage {
   readonly itemDeleteBtn: Locator;
   readonly proceedToCheckoutBtn: Locator;
 
+
   constructor(page: Page) {
     this.page = page;
 

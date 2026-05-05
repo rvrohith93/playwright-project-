@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 
-export class HomePage {
+export class HomePage { 
   readonly page: Page;
 
   readonly signupLoginLink: Locator;
@@ -17,6 +17,9 @@ export class HomePage {
   readonly recommendedTitle: Locator;
   readonly firstRecommendedAddToCartBtn: Locator;
   readonly viewCartBtn: Locator;
+  readonly deleteAccountLink: Locator;
+readonly accountDeletedText: Locator;
+readonly continueBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -34,6 +37,10 @@ export class HomePage {
     this.firstProductViewButton = page.locator('.features_items .col-sm-4').first().locator('a[href*="product_details"]');
 
     this.recommendedTitle = page.getByText('recommended items', { exact: false });
+    this.deleteAccountLink = page.locator('a[href="/delete_account"]');
+this.accountDeletedText = page.getByText('Account Deleted!');
+this.continueBtn = page.getByRole('link', { name: 'Continue' });
+    
 
     this.firstRecommendedAddToCartBtn =
       page.locator('#recommended-item-carousel a[data-product-id]').first();
@@ -111,4 +118,12 @@ export class HomePage {
   async clickViewCart() {
     await this.viewCartBtn.click();
   }
+  async deleteAccount() {
+  await this.deleteAccountLink.click();
+}
+
+async verifyAccountDeleted() {
+  await expect(this.accountDeletedText).toBeVisible();
+  await this.continueBtn.click();
+}
 }
