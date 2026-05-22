@@ -50,7 +50,7 @@ export class ContactUsPage {
     });
 
     await this.submitBtn.click();
-    
+      
   }
 
   async verifySuccess() {
