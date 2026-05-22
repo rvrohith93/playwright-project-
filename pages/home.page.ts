@@ -20,6 +20,8 @@ export class HomePage {
   readonly deleteAccountLink: Locator;
 readonly accountDeletedText: Locator;
 readonly continueBtn: Locator;
+readonly scrollUpArrow: Locator;
+readonly homeBannerText: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -40,6 +42,14 @@ readonly continueBtn: Locator;
     this.deleteAccountLink = page.locator('a[href="/delete_account"]');
 this.accountDeletedText = page.getByText('Account Deleted!');
 this.continueBtn = page.getByRole('link', { name: 'Continue' });
+this.subscriptionText = page.getByText('Subscription');
+
+this.scrollUpArrow = page.locator('#scrollUp');
+
+this.homeBannerText = page
+  .getByRole('heading', {
+    name: 'Full-Fledged practice website for Automation Engineers'})
+  .first();
     
 
     this.firstRecommendedAddToCartBtn =
@@ -100,9 +110,6 @@ this.continueBtn = page.getByRole('link', { name: 'Continue' });
   async verifySubscriptionSuccess() {
     await expect(this.subscriptionSuccess).toHaveText('You have been successfully subscribed!');
   }
-  async scrollToBottom() {
-    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  }
 
   async verifyRecommendedItemsVisible() {
     await expect(this.recommendedTitle).toBeVisible();
@@ -125,5 +132,22 @@ this.continueBtn = page.getByRole('link', { name: 'Continue' });
 async verifyAccountDeleted() {
   await expect(this.accountDeletedText).toBeVisible();
   await this.continueBtn.click();
+}
+async scrollToBottom() {
+  await this.page.evaluate(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+}
+
+async verifySubscriptionVisible() {
+  await expect(this.subscriptionText).toBeVisible();
+}
+
+async clickScrollUpArrow() {
+  await this.scrollUpArrow.click();
+}
+
+async verifyScrolledUp() {
+  await expect(this.homeBannerText).toBeVisible();
 }
 }
