@@ -150,4 +150,11 @@ async clickScrollUpArrow() {
 async verifyScrolledUp() {
   await expect(this.homeBannerText).toBeVisible();
 }
+async verifyScrolledUpWithoutArrow() {
+  await this.page.evaluate(() => {
+    window.scrollTo(0, 0);
+  });
+
+  await expect(this.homeBannerText).toBeVisible();
+}
 }
