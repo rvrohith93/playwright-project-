@@ -22,4 +22,4 @@ test('Test Case 22: Add to cart from Recommended items', async ({ page }) => {
 
   await cart.verifyProductsCount(1);
   await cart.verifyProductsVisible();
-});
+}); 

@@ -8,7 +8,7 @@ test('Test Case 18: View Category Products', async ({ page }) => {
 
   await page.evaluate(() => {
     document.querySelectorAll('iframe').forEach(el => el.remove());
-  });
+  });  
 
   await home.navigate();
   await category.verifyCategoriesVisible();
