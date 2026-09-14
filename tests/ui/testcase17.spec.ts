@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../pages/home.page';
-import { CartPage } from '../../pages/cart.page.ts';
-import { ProductsPage } from '../../pages/products.page.ts';
+import { CartPage } from '../../pages/cart.page';
+import { ProductsPage } from '../../pages/products.page';
 import { registerUser } from '../../utils/signuphelper';
 
 
@@ -25,7 +25,6 @@ test ('Test Case 17: Remove products from cart', async ({ page }) => {
     await cart.deleteProduct();
     const afterCount = await cart.getCartProductCount();
     expect(afterCount).toBeLessThan(beforeCount);
-
 
 
 })

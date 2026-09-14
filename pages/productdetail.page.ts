@@ -12,7 +12,12 @@ export class ProductDetailPage {
   readonly quantityInput: Locator;
   readonly addToCartBtn: Locator;
   readonly viewCartBtn: Locator;
-
+  readonly writeReviewTitle: Locator;
+  readonly reviewNameInput: Locator;
+  readonly reviewEmailInput: Locator;
+  readonly reviewTextArea: Locator;
+  readonly submitReviewBtn: Locator;
+  readonly reviewSuccessMsg: Locator;
   constructor(page: Page) {
     this.page = page;
 
@@ -25,6 +30,15 @@ export class ProductDetailPage {
     this.quantityInput = page.locator('#quantity');
     this.addToCartBtn = page.locator('.btn.btn-default.cart');
     this.viewCartBtn = page.getByRole('link', { name: 'View Cart' });
+    this.writeReviewTitle = page.getByText('Write Your Review');
+    this.reviewNameInput = page.locator('#name');
+    this.reviewEmailInput = page.locator('#email');
+    this.reviewTextArea = page.locator('#review');
+
+    this.submitReviewBtn = page.locator('#button-review');
+
+    this.reviewSuccessMsg = page.getByText('Thank you for your review.');
+
   }
 
   async verifyProductDetailsVisible() {
@@ -46,5 +60,23 @@ export class ProductDetailPage {
 
   async viewCart() {
     await this.viewCartBtn.click();
+  }
+  async verifyWriteReviewVisible() {
+    await expect(this.writeReviewTitle).toBeVisible();
+  }
+
+  async submitReview(
+    name: string,
+    email: string,
+    review: string
+  ) {
+    await this.reviewNameInput.fill(name);
+    await this.reviewEmailInput.fill(email);
+    await this.reviewTextArea.fill(review);
+    await this.submitReviewBtn.click();
+  }
+
+  async verifyReviewSuccess() {
+    await expect(this.reviewSuccessMsg).toBeVisible();
   }
 }

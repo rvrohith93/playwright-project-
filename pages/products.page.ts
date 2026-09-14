@@ -10,7 +10,11 @@ export class ProductsPage {
   readonly searchButton: Locator;
   readonly searchedProductsTitle: Locator;
   readonly searchedProductsList: Locator;
-
+  readonly brandsTitle: Locator;
+  readonly poloBrand: Locator;
+  readonly hmBrand: Locator;
+  readonly brandHeader: Locator;
+  readonly brandProducts: Locator;
   readonly firstProduct: Locator;
   readonly secondProduct: Locator;
   readonly continueShoppingBtn: Locator;
@@ -32,6 +36,13 @@ export class ProductsPage {
 
     this.firstProduct = this.productsList.nth(0);
     this.secondProduct = this.productsList.nth(1);
+    this.brandsTitle = page.getByText('Brands');
+
+    this.poloBrand = page.getByRole('link', { name: 'Polo' });
+    this.hmBrand = page.getByRole('link', { name: 'H&M' });
+
+    this.brandHeader = page.locator('.features_items h2.title');
+    this.brandProducts = page.locator('.features_items .col-sm-4');
 
     this.continueShoppingBtn = page.getByRole('button', { name: 'Continue Shopping' });
     this.viewCartBtn = page.getByRole('link', { name: 'View Cart' });
@@ -89,4 +100,21 @@ export class ProductsPage {
     await expect(this.viewCartBtn).toBeVisible();
     await this.viewCartBtn.click();
   }
+  async verifyBrandsVisible() {
+  await expect(this.brandsTitle).toBeVisible();
+}
+
+async clickPoloBrand() {
+  await this.poloBrand.click();
+}
+
+async clickHMBrand() {
+  await this.hmBrand.click();
+}
+
+async verifyBrandPage(brandName: string) {
+  await expect(this.brandHeader).toContainText(brandName);
+  await expect(this.brandProducts.first()).toBeVisible();
+}
+
 }
