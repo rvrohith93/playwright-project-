@@ -8,6 +8,7 @@ import { registerUser } from '../../utils/signuphelper';
 
 test('Test Case 24: Download Invoice after purchase order', async ({ page }) => {
   const email = `test${Date.now()}@mail.com`;
+  const name = 'Rohit';
 
   const home = new HomePage(page);
   const products = new ProductsPage(page);
@@ -36,7 +37,7 @@ test('Test Case 24: Download Invoice after purchase order', async ({ page }) => 
 
   await page.waitForLoadState('networkidle');
 
-  await checkout.verifyAddressSection();
+  await checkout.verifyAddressSection(name);
   await checkout.enterComment('Test order');
   await checkout.placeOrder();
 
